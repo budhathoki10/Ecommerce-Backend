@@ -11,6 +11,7 @@ const additems= async(req,res)=>{
         productName,
         Price
     });
+    
     await newitem.save()
     res.status(200).json({message:`${productName} is added in database`})
 }
