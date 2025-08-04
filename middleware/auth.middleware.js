@@ -23,10 +23,11 @@ const auth = async (req, res, next) => {
     return res.status(401).json({ message: "Error in header" });
   }
 };
-const isOwner= (req,res)=>{
+const isOwner= (req,res,next)=>{
     if(req.user?.email!="budhathokikushal170@gmail.com"){
     return res.status(401).json({ message: "admin access only" });
   }
+  next()
 }
 
 module.exports =  {auth,isOwner};
