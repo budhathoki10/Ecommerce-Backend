@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
+const uderdetails= require("../authentication/loginsignup.authentication")
 
 const auth = async (req, res, next) => {
   try {
@@ -15,8 +15,9 @@ const auth = async (req, res, next) => {
     if (!verify) {
       return res.status(401).json({ message: "Invalid token" });
     }
-   
-    req.user = verify;
+   const userdata= await  uderdetails.findByID(verify?.id)
+   console.log(userdata);
+    req.user = userdata;
 
     next();
   } catch (error) {
