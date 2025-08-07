@@ -10,8 +10,13 @@ const itemsSchema= mongoose.Schema({
         required:true
 
     },
+    category:{
+             type:String,
+             required:true
+    },
         Price:{
-        type:Number
+        type:Number,
+        required:true
     },
 })
 const productdetails= mongoose.model("productdetails",itemsSchema)

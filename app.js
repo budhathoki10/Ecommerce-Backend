@@ -13,8 +13,10 @@ mongoose.connect(process.env.MONGOOSE_URL).then(()=>{
 .catch(()=>{
   console.log("error to connect in mongodb");
 })
-app.use('/api/user', router)
-
+app.use('/api', router)
+app.use((req,res)=>{
+  res.status(404).json({message:"invalid route"})
+})
 app.listen(5000, () => {
   console.log('server running sucessfully')
 })
