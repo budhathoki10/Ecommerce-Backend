@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-const router = require('./router/route.router')
+const CustomerRouter= require("./router/Customers.route")
+const AdminRouter= require("./router/Admin.route")
 const mongoose= require("mongoose")
 const cookie= require("cookie-parser")
 const cookieParser = require('cookie-parser')
@@ -13,7 +14,8 @@ mongoose.connect(process.env.MONGOOSE_URL).then(()=>{
 .catch(()=>{
   console.log("error to connect in mongodb");
 })
-app.use('/api', router)
+app.use('/api', CustomerRouter)
+app.use('/api', AdminRouter)
 app.use((req,res)=>{
   res.status(404).json({message:"invalid route"})
 })
