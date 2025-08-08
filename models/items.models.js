@@ -18,6 +18,18 @@ const itemsSchema= mongoose.Schema({
         type:Number,
         required:true
     },
+    image:{
+        type:String,
+        default:"no image",
+
+    },
+    imageDetails:{
+        type: {
+        url: String,
+        public_id: String,
+      },
+      default: null,
+    }
 })
 const productdetails= mongoose.model("productdetails",itemsSchema)
 module.exports= productdetails

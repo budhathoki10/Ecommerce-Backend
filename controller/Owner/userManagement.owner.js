@@ -6,8 +6,7 @@ const viewuser = async (req, res) => {
         if (findUserdata.length === 0) {
             return res.status(404).json({ message: "NO user yet" });
         }
-        console.log("hello");
-
+        
         return res.status(200).json({ data: findUserdata });
     } catch (error) {
         return res.status(500).json({ message: "Error to ge fetch the error from database" });
