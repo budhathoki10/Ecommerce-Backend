@@ -1,15 +1,20 @@
 const productdetails = require("../../models/items.models");
+const uploadImageToCloudinary = require("../../utils/Cloudinary.utils")
 const additems= async(req,res)=>{
-    const {productId,productName,category,Price}=req.body
+    const {productId,productName,category,Price,image,imageDetails}=req.body
     const checkitem= await productdetails.findOne({productName:productName})
     if(checkitem){
         return res.status(404).json({message:`${productName} is already present`})
     }
-    const newitem= new productdetails({
+        const imagedata= await uploadImageToCloudinary(req.file.buffer)
+        const newitem= new productdetails({
         productId,
         productName,
         category,
-        Price
+        Price,
+        image:req.file.originalname  || "no need of image",
+        imageDetails:imagedata || null
+
     });
     
     await newitem.save()
