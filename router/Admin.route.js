@@ -4,6 +4,7 @@ const {register,login,logout} = require('../authentication/loginsignup.authentic
 const {auth,isOwner}= require("../middleware/auth.middleware")
 const {additems,finddata,updateitems,deleteItems}= require("../controller/Owner/CrudItems")
 const {viewuser,deleteUser}= require("../controller/Owner/userManagement.owner")
+const {addToCart,viewTocart}= require("../controller/Customer/Order")
 const uploadImage= require("../services/Multer.services")
 // user
 AdminRouter.post('/admin/register', register)
@@ -14,6 +15,9 @@ AdminRouter.post('/task/createitems',auth, isOwner,uploadImage.single("myfile"),
 AdminRouter.get('/task/dashboard',auth, finddata)
 AdminRouter.put('/task/updateitems/:id',auth, isOwner,uploadImage.single("myfile"), updateitems)
 AdminRouter.delete('/task/deleteitems/:id',auth, isOwner, deleteItems)
+
+AdminRouter.get('/task/viewcart',auth,isOwner, viewTocart)
+
 
 // crud user
 AdminRouter.get('/task/viewusers',auth, isOwner, viewuser)

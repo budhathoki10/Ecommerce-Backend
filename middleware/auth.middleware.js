@@ -11,12 +11,10 @@ const auth = async (req, res, next) => {
     }
 
     const verify = jwt.verify(token, process.env.SECRET_KEY);
-
-    if (!verify) {
+    const userdata= await  uderdetails.findById(verify?.id)
+    if (!userdata) {
       return res.status(401).json({ message: "Invalid token" });
     }
-    const userdata= await  uderdetails.findById(verify?.id)
-   console.log(userdata);
     req.user = userdata;
 
     next();
