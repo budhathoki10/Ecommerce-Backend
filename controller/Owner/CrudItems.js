@@ -1,7 +1,7 @@
 const productdetails = require("../../models/items.models");
 const uploadImageToCloudinary = require("../../utils/Cloudinary.utils")
 const additems= async(req,res)=>{
-    const {productId,productName,category,Price,image,imageDetails}=req.body
+    const {productId,productName,category,Price,image,imageDetails,description,stock}=req.body
     const checkitem= await productdetails.findOne({productName:productName})
     if(checkitem){
         return res.status(404).json({message:`${productName} is already present`})
@@ -13,7 +13,9 @@ const additems= async(req,res)=>{
         category,
         Price,
         image:req.file.originalname  || "no need of image",
-        imageDetails:imagedata || null
+        imageDetails:imagedata || null,
+        description,
+        stock
 
     });
     
@@ -43,13 +45,33 @@ const finddata = async (req, res) => {
     }
 };
 const updateitems = async(req,res)=>{
+    const {productId,productName,category,Price,image,imageDetails,description,stock}=req.body
     const id= req.params.id
-    const finddata = await productdetails.findById(id);
-    if(!finddata){
+    const checkitems = await productdetails.findById(id);
+    if(!checkitems){
         return res.status(404).json({message:"cannot find this id for update"})
     }
-    const updateddata= await  productdetails.findByIdAndUpdate(id, 
-        req.body, 
+    let images= checkitems.originalname;
+    let imgdtl= checkitems.imagedata
+
+    if(req.file){
+     images= req.file.originalname;
+     imgdtl= await uploadImageToCloudinary(req.file.buffer)
+    }
+    const update_data= {
+        productId,
+        productName,
+        category,
+        Price,
+        image:images || "no need of image",
+        imageDetails:imgdtl || null,
+        description,
+        stock
+
+    }
+    const updateddata= await  productdetails.findByIdAndUpdate(
+        checkitems._id, 
+        update_data,
         {new:true})
 
        res.status(200).json({message:updateddata})
@@ -65,7 +87,7 @@ const deleteItems = async(req,res)=>{
         req.body, 
         {new:true})
 
-       res.status(200).json({message:deletedata})
+       res.status(200).json({message:"items deleted sucessfully",data:deletedata})
 
 }
 module.exports= {additems,finddata,updateitems,deleteItems}

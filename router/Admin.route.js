@@ -12,7 +12,7 @@ AdminRouter.post('/admin/logout', logout)
 // crud items
 AdminRouter.post('/task/createitems',auth, isOwner,uploadImage.single("myfile"), additems)
 AdminRouter.get('/task/dashboard',auth, finddata)
-AdminRouter.put('/task/updateitems/:id',auth, isOwner, updateitems)
+AdminRouter.put('/task/updateitems/:id',auth, isOwner,uploadImage.single("myfile"), updateitems)
 AdminRouter.delete('/task/deleteitems/:id',auth, isOwner, deleteItems)
 
 // crud user

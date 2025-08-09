@@ -29,6 +29,14 @@ const itemsSchema= mongoose.Schema({
         public_id: String,
       },
       default: null,
+    },
+    description:{
+        type:String,
+        required:true
+    },
+        stock:{
+        type:Number,
+        required:true
     }
 })
 const productdetails= mongoose.model("productdetails",itemsSchema)
