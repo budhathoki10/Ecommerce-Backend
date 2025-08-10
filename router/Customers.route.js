@@ -9,6 +9,6 @@ CustomerRouter.post('/user/register', register)
 CustomerRouter.post('/user/login', login)
 CustomerRouter.post('/user/logout', logout)
 CustomerRouter.post('/user/logout', logout)
-CustomerRouter.post('/task/addtocart',auth, addToCart)
+CustomerRouter.post('/task/addtocart/:id',auth, addToCart)
 CustomerRouter.get('/task/dashboard',auth, finddata)
 module.exports = CustomerRouter
