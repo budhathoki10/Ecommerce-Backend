@@ -1,36 +1,41 @@
 const cart= require("../../models/Cart.models.js");
-const items= require("../../models/items.models.js")
+const items= require("../../models/items.models.js");
+const userdetail = require("../../models/userdetails.js");
 
 
 const addToCart = async (req, res) => {
-    const { typeid } = req.body;
-    const userId = req.user?.id;
-
+    
     try {
-        // Check if the item already exists in the cart
-        const checkitems= await items.findOne({typeid:typeid,userdetails: userId})
-        if(!checkitems)
-        // const existingCartItem = await cart.findOne({ typeid, userdetails: userId }).populate("userdetails", "firstName phonenumber" );
-        if (checkitems) {
-            return res.status(400).json({ message: "Item already exists in the cart" });
+        const { productId,userdetails} = req.body;
+        const userId = req.user?.id;
+        // check if tem prensent in database
+        const checkitems= await items.findOne({productId:productId})
+        if (!checkitems) {
+            return res.status(400).json({ message: "cannot find this item in datbase" });
         }
-        // Create a new cart item
+        console.log("hello");
+        // check cart 
+            const checkcart= await cart.findOne({productId:productId})
+        if (checkcart) {
+            return res.status(400).json({ message: "already present in cart" });
+        }
+        
         const newCartItem = new cart({
-            typeid,
-            userdetails: userId
+            productId,
+            userdetails:userId
         });
 
         await newCartItem.save();
         res.status(201).json({ message: "Item added to cart successfully", item: newCartItem });
     } catch (error) {
         console.error("Error adding item to cart:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error dsd" });
     }
 }
 const viewTocart= async (req,res) => {
     try {
-        // const viewcart= await cart.find().populate("userdetails", "firstName phonenumber" );
-        const viewcart= await cart.find()
+        const viewcart = await cart.find().populate("userdetails", "firstName lastName phonenumber email ")
+        .populate("productdetails", "productName");
         if(viewcart.length === 0){
         return res.status(400).json({message:"no any order"})
     }
