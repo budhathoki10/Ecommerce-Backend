@@ -10,9 +10,13 @@ const register = async (req, res) => {
   if(!email.endsWith("@gmail.com")){
        return res.status(400).json({message:"this isnot email"})
   }
+    if(phonenumber.length!=10 && !phonenumber.toString().startsWith(9)){
+    return res.status(400).json({message:"invalid phone number"})
+  }
   if(password.length<5){
     return res.status(400).json({message:"password must be greater than 5"})
   }
+
   const bcryptpassword= await bcrypt.hash(password,10)
   const newuser= new userdetail({
     firstName,

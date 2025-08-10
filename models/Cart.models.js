@@ -1,13 +1,19 @@
 const mongoose= require("mongoose")
+const productdetails = require("./items.models")
 const cartSystem= mongoose.Schema({
     
-    typeid:{
+    productId:{
         type:Number,
         required:true
     },
-userdetails:{
+    userdetails:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "userdetails",
+        ref: "userDetails",
+        required:true
+},
+    productdetails:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "productdetails",
         required:true
 }
     })
