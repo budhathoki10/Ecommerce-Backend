@@ -22,28 +22,7 @@ const additems= async(req,res)=>{
     await newitem.save()
     res.status(200).json({message:`${productName} is added in database`})
 }
-const finddata = async (req, res) => {
-    try {
-        const {category,sort } = req.query;
 
-   
-        let query = {};
-        if (category) {
-            query.category = category;
-        }
-
-        const finddata = await productdetails.find(query).sort({Price:sort==="desc"?-1:1})
-
-        if (finddata.length === 0) {
-            return res.status(404).json({ message: "No items found" });
-        }
-
-        return res.status(200).json({ items: finddata });
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-};
 const updateitems = async(req,res)=>{
     const {productId,productName,category,Price,image,imageDetails,description,stock}=req.body
     const id= req.params.id
@@ -90,4 +69,4 @@ const deleteItems = async(req,res)=>{
        res.status(200).json({message:"items deleted sucessfully",data:deletedata})
 
 }
-module.exports= {additems,finddata,updateitems,deleteItems}
+module.exports= {additems,updateitems,deleteItems}

@@ -1,36 +1,53 @@
 const mongoose= require("mongoose")
 const productdetails = require("./items.models")
 const cartSystem= mongoose.Schema({
-    
-    // productId:{
-    //     type:Number,
-    //     required:true
-    // },
-    productName:{
-        type:String,
-    },
+    userdetails:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "userDetails",
+        required:true
+},
+    Productitems:[
+        {
+        productdetails:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "productdetails",
+        required:true
+        },
+        Productid:{
+            type:String,
+            required:true
+        },
+        productname:{
+             type:String,
+        },
     Quantity:{
         type:Number,
         required:true
     },
-    totalPrice:{
+    Price:{
+         type:Number,
+    },
+    }
+
+    ],
+    totoalprice:{
          type:Number,
     },
     status:{
         type:String,
         default:"pending"
     },
+    location:{
+         type:String,
+       require:true
+    },
 
-    userdetails:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "userDetails",
-        required:true
-}
-//     productdetails:{
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "productdetails",
-//         required:true
-// }
-    })
+    OrderDate:{
+        type:Date,
+        default:Date.now
+    }
+    
+
+    });
 const cart= mongoose.model("cartSystem",cartSystem)
 module.exports= cart
