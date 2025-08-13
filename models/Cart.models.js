@@ -35,6 +35,7 @@ const cartSystem= mongoose.Schema({
     },
     status:{
         type:String,
+        enum: ["pending","delivered"],
         default:"pending"
     },
     location:{

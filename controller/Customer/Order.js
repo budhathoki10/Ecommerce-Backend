@@ -26,7 +26,6 @@ const addToCart = async (req, res) => {
       userdetails: userId,
       Productitems: [],
       totoalprice: 0,
-      productname,
       status: "pending",
       location
     });
@@ -53,18 +52,22 @@ const addToCart = async (req, res) => {
         (item) => item.productdetails.toString() === products._id.toString()
       );
 
-      if (existingIndex !== -1) {
-        newCart.Productitems[existingIndex].Quantity += quantity;
-        newCart.Productitems[existingIndex].Price =
-          newCart.Productitems[existingIndex].Quantity * products.Price;
-      } else {
-        newCart.Productitems.push({
-          productdetails: products._id,
-          Productid: products.productId,
-          Quantity: quantity,
-          Price: priceperitems,
-        });
-      }
+if (existingIndex >= 0) {  
+  let currentItem = newCart.Productitems[existingIndex];
+
+  currentItem.Quantity = currentItem.Quantity + quantity;
+  currentItem.Price = currentItem.Quantity * products.Price;
+  currentItem.productname = products.productName;
+} else {
+  newCart.Productitems.push({
+    productdetails: products._id,   
+    Productid: products.productId,    
+    productname: products.productName, 
+    Quantity: quantity,                
+    Price: priceperitems                
+  });
+}
+
     }
 
     let total = 0;
