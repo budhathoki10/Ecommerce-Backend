@@ -3,6 +3,7 @@ const app = express()
 const CustomerRouter= require("./router/Customers.route")
 const AdminRouter= require("./router/Admin.route")
 const mongoose= require("mongoose")
+const router= require("./middleware/ErrorHanlder.middleware")
 const cookie= require("cookie-parser")
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
@@ -16,9 +17,7 @@ mongoose.connect(process.env.MONGOOSE_URL).then(()=>{
 })
 app.use('/api', CustomerRouter)
 app.use('/api', AdminRouter)
-app.use((req,res)=>{
-  res.status(404).json({message:"invalid route"})
-})
+app.use(router)
 app.listen(5000, () => {
   console.log('server running sucessfully')
 })
