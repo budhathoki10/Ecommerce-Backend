@@ -7,6 +7,8 @@ const router= require("./middleware/ErrorHanlder.middleware")
 const cookie= require("cookie-parser")
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
+const cors= require("cors")
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 mongoose.connect(process.env.MONGOOSE_URL).then(()=>{
